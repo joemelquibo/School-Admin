@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 function SubjectList() {
     const [subjects, setSubjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedId, setSelectedId] = useState(null);
 
     // Form States matching subjects backend
@@ -35,6 +36,11 @@ function SubjectList() {
         setUnits('');
         setSelectedId(null);
     };
+
+    const filteredSubjects = subjects.filter((s) => 
+        s.subjcode.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.subjdesc.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -97,6 +103,17 @@ function SubjectList() {
     return (
         <>
             <div className="w3-container w3-padding">
+
+                {/*Search Bar */}
+                <div className="w3-left w3-padding" style={{ width: '350px' }}>
+                    <input 
+                        type="text" 
+                        className="w3-input w3-border" 
+                        placeholder="Search Subject Code or Description..." 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
                 <div className='w3-right w3-padding'>
                     <button className='w3-button w3-blue' onClick={() => {
                         clearForm();
@@ -113,7 +130,7 @@ function SubjectList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {subjects.map((s) => (
+                        {filteredSubjects.map((s)=> (
                             <tr key={s.subjcode}>
                                 <td>{s.subjcode}</td>
                                 <td>{s.subjdesc}</td>

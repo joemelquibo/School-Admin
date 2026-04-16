@@ -3,6 +3,7 @@ function StudentList()
 {
 	const [students,setStudent] = useState([]);
 	const [loading,setLoading] = useState({});
+	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedId, setSelectedId] = useState(null);
 	//
 	const [idno,setIdno] = useState('');
@@ -36,6 +37,11 @@ function StudentList()
     setLevel('');
     setSelectedId(null);
 	};
+
+	{/*Search Bar Filter */}
+	const filteredStudents = students.filter((student) =>
+    student.idno.toString().toLowerCase().includes(searchTerm.toLowerCase())
+	);
 
 	{/*Add*/}
 	const handleSubmit = async (event) => {
@@ -137,6 +143,16 @@ function StudentList()
 	return (
     <>	
 		<div className="w3-container w3-padding">
+			{/*Search Bar */}
+			<div className="w3-left w3-padding" style={{ width: '300px' }}>
+				<input 
+					type="text" 
+					className="w3-input w3-border" 
+					placeholder="Search ID Number..." 
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+				/>
+			</div>
 			<div className='w3-right w3-padding'>
 				<button className='w3-button w3-blue' onClick={() => 
 				{
@@ -156,7 +172,7 @@ function StudentList()
 				</tr>
 			  </thead>
 			  <tbody>
-				{students.map((student) => (
+				{filteredStudents.map((student) => (
 				  <tr key={student.id}> 
 					<td>{student.idno}</td>
 					<td>{student.lastname}</td>

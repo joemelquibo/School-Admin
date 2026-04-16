@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 function SubjectOfferedList() {
     const [suboff, setSubOff] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedId, setSelectedId] = useState(null);
 
     // Form States matching your back-end fields
@@ -43,6 +44,11 @@ function SubjectOfferedList() {
         setTeacherid('');
         setSelectedId(null);
     };
+
+    const filteredSubOff = suboff.filter((s) => 
+        s.edpcode.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (s.subject_name || s.subjid).toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -98,7 +104,20 @@ function SubjectOfferedList() {
 
     return (
         <div className="w3-container w3-padding">
+
+            {/*Search Bar */}
+            <div className="w3-left w3-padding" style={{ width: '300px' }}>
+                <input 
+                    type="text" 
+                    className="w3-input w3-border" 
+                    placeholder="Search EDP Code or Subject..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
             <div className='w3-right w3-padding'>
+                
                 <button className='w3-button w3-blue' onClick={() => { clearForm(); document.getElementById('subjmodal').style.display='block'; }}>
                     + ADD SUBJECT
                 </button>
@@ -116,7 +135,7 @@ function SubjectOfferedList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {suboff.map((s) => (
+                    {filteredSubOff.map((s) => (
                         <tr key={s.edpcode}>
                             <td>{s.edpcode}</td>
                             <td>{s.subject_name || s.subjid}</td>

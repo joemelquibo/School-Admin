@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 function Enrollment_DetList() {
     const [details, setDetails] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedId, setSelectedId] = useState(null);
 
     // Form Fields matching backend: enroll_id and suboffid
@@ -33,6 +34,9 @@ function Enrollment_DetList() {
         setSuboffid('');
         setSelectedId(null);
     };
+
+    const filteredDetails = details.filter(item => 
+    item.enroll_id.toString().toLowerCase().includes(searchTerm.toLowerCase()));
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -92,6 +96,15 @@ function Enrollment_DetList() {
     return (
         <>
             <div className="w3-container w3-padding">
+                <div className="w3-left w3-padding" style={{ width: '300px' }}>
+                    <input 
+                        type="text" 
+                        className="w3-input w3-border" 
+                        placeholder="Search Enrollment ID..." 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
                 <div className='w3-right w3-padding'>
                     <button className='w3-button w3-blue' onClick={() => {
                         clearForm();
@@ -107,16 +120,22 @@ function Enrollment_DetList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {details.map((item) => (
-                            <tr key={item.enroll_id}>
-                                <td>{item.enroll_id}</td>
-                                <td>{item.suboffid}</td>
-                                <td>
-                                    <button onClick={() => prepareEdit(item)}>&#9998;</button>
-                                    <button onClick={() => handleDelete(item.enroll_id)}>&times;</button>
-                                </td>
+                        {filteredDetails.length > 0 ? (
+                            filteredDetails.map((item) => (
+                                <tr key={item.enroll_id}>
+                                    <td>{item.enroll_id}</td>
+                                    <td>{item.suboffid}</td>
+                                    <td>
+                                        <button onClick={() => prepareEdit(item)}>&#9998;</button>
+                                        <button onClick={() => handleDelete(item.enroll_id)}>&times;</button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="3" className="w3-center">No records found matching "{searchTerm}"</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
