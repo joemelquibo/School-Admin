@@ -60,7 +60,7 @@ router.post("/",(req,res)=>{
 	let course_code = req.body.course_code;
 	let course_desc = req.body.course_desc;
 	
-	let sql = "INSERT INTO `"+tablename+"` ("+fields+") VALUES(?,?,?)";
+	let sql = "INSERT INTO `"+tablename+"` ("+fields+") VALUES(?,?)";
 	connect();
 	conn.query(sql,[course_code,course_desc],(err,rows)=>{
 		if(err) return res.status(500).json(err);
@@ -69,7 +69,7 @@ router.post("/",(req,res)=>{
 });
 
 router.put("/:course_code",(req,res)=>{
-	let course_code = req.body.course_code;
+	let course_code = req.params.course_code;
 	let course_desc = req.body.course_desc;
 	
 	let flds = [];
@@ -78,9 +78,9 @@ router.put("/:course_code",(req,res)=>{
 	
 	let fldstr = flds.join(",");
 	
-	let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"="+course_code;
+	let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"=?";
 	connect();
-	conn.query(sql,[course_code,course_desc],(err,rows)=>{
+	conn.query(sql,[course_desc, course_code],(err,rows)=>{
 		if(err) return res.status(500).json(err);
 		return res.json(rows);
 	});

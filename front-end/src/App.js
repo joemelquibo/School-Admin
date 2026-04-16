@@ -5,6 +5,8 @@ import Enrollment_DetList from './components/Enrollment_DetList';
 import SubjectOffList from './components/SubjectOffList';
 import SubjectList from './components/SubjectList';
 import EnrollmentList from './components/EnrollmentList'
+import CourseList from './components/CourseList';
+import TeacherList from './components/TeacherList'
 
 function App() {
 	const [view, setView] = useState('students');
@@ -61,18 +63,10 @@ function App() {
         {view === 'students' && <StudentList />}
         
 		{/*Teacher navbar */}
-        {view === 'teachers' && (
-          <div className="w3-panel w3-leftbar w3-sand w3-padding-24">
-            <p className="w3-xlarge w3-serif"><i>"Titsers"</i></p>
-          </div>
-        )}{/*TeacherList ang e filename sa page */}
+        {view === 'teachers' && <TeacherList/>}
 		
 		{/*Course navbar */}
-        {view === 'course' && (
-          <div className="w3-panel w3-leftbar w3-sand w3-padding-24">
-            <p className="w3-xlarge w3-serif"><i>"kers"</i></p>
-          </div>
-        )}{/*CourseList ang e filename sa page */}
+        {view === 'course' && <CourseList/>}
 
 		{/*Enrollment navbar */}
         {view === 'enrollment' && <EnrollmentList/>}

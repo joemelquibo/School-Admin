@@ -72,7 +72,7 @@ router.post("/",(req,res)=>{
 });
 
 router.put("/:teachercode",(req,res)=>{
-	let teachercode = req.body.teachercode;
+	let teachercode = req.params.teachercode;
 	let rfid = req.body.rfid;
 	let lastname = req.body.lastname;
 	let firstname = req.body.firstname;
@@ -84,9 +84,9 @@ router.put("/:teachercode",(req,res)=>{
 	
 	let fldstr = flds.join(",");
 	
-	let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"="+teachercode;
+	let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"=?";
 	connect();
-	conn.query(sql,[teachercode,rfid,lastname,firstname,deptid],(err,rows)=>{
+	conn.query(sql,[rfid,lastname,firstname,deptid,teachercode],(err,rows)=>{
 		if(err) return res.status(500).json(err);
 		return res.json(rows);
 	});
