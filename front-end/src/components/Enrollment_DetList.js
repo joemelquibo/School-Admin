@@ -100,7 +100,7 @@ function Enrollment_DetList() {
                 </div>
                 <table className="w3-table-all">
                     <thead>
-                        <tr className="w3-light-grey">
+                        <tr className="w3-blue">
                             <th>ENROLL ID</th>
                             <th>SUB OFF ID</th>
                             <th style={{ width: '150px' }}>CONTROL</th>

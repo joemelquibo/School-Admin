@@ -73,27 +73,29 @@ router.post("/",(req,res)=>{
 	});
 });
 
-router.put("/:course_code",(req,res)=>{
-	let edpcode = req.body.edpcode;
-	let subjid = req.body.subjid;
-	let start_time = req.body.start_time;
-	let end_time = req.body.end_time;
-	let days = req.body.days;
-	let room = req.body.room;
-	let teacherid = req.body.teacherid;
-	
-	let flds = [];
-	for(let i=1;i<fields.length;i++)
-		flds.push(fields[i]+"=?")
-	
-	let fldstr = flds.join(",");
-	
-	let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"="+course_code;
-	connect();
-	conn.query(sql,[edpcode,subjid,start_time,end_time,days,room,teacherid],(err,rows)=>{
-		if(err) return res.status(500).json(err);
-		return res.json(rows);
-	});
+router.put("/:edpcode",(req,res)=>{
+    let edp_id = req.params.edpcode;
+    
+    let subjid = req.body.subjid;
+    let start_time = req.body.start_time;
+    let end_time = req.body.end_time;
+    let days = req.body.days;
+    let room = req.body.room;
+    let teacherid = req.body.teacherid;
+    
+    let flds = [];
+    for(let i=1; i < fields.length; i++)
+        flds.push(fields[i]+"=?")
+    
+    let fldstr = flds.join(",");
+    
+    let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"=?"; 
+    
+    connect();
+    conn.query(sql, [subjid, start_time, end_time, days, room, teacherid, edp_id], (err,rows)=>{
+        if(err) return res.status(500).json(err);
+        return res.json(rows);
+    });
 });
 
 module.exports = router;

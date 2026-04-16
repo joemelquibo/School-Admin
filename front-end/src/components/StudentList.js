@@ -1,4 +1,4 @@
-import eact,{useState,useEffect} from 'react';
+import React,{useState,useEffect} from 'react';
 function StudentList()
 {
 	const [students,setStudent] = useState([]);
@@ -146,7 +146,7 @@ function StudentList()
 			</div>
 			<table className="w3-table-all">
 			  <thead>
-				<tr>
+				<tr className="w3-blue">
 				  <th>IDNO</th>
 				  <th>LASTNAME</th>
 				  <th>FIRSTNAME</th>

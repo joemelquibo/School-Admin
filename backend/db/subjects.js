@@ -70,7 +70,7 @@ router.post("/",(req,res)=>{
 });
 
 router.put("/:subjcode",(req,res)=>{
-	let subjcode = req.body.subjcode;
+	let subjcode = req.params.subjcode;
 	let subjdesc = req.body.subjdesc;
 	let units = req.body.units;
 	
@@ -80,9 +80,9 @@ router.put("/:subjcode",(req,res)=>{
 	
 	let fldstr = flds.join(",");
 	
-	let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"="+subjcode;
+	let sql = "UPDATE `"+tablename+"` SET "+fldstr+" WHERE "+fields[0]+"=?";
 	connect();
-	conn.query(sql,[subjid,subjcode,subjdesc,units],(err,rows)=>{
+	conn.query(sql, [subjdesc, units, subjcode], (err,rows)=>{
 		if(err) return res.status(500).json(err);
 		return res.json(rows);
 	});

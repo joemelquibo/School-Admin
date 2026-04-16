@@ -2,6 +2,8 @@ import './App.css'
 import React,{useState,useEffect} from 'react';
 import StudentList from './components/StudentList';
 import Enrollment_DetList from './components/Enrollment_DetList';
+import SubjectOffList from './components/SubjectOffList';
+import SubjectList from './components/SubjectList';
 
 function App() {
 	const [view, setView] = useState('students');
@@ -82,18 +84,10 @@ function App() {
         {view === 'enrollment_details' && <Enrollment_DetList/>}
 
 		{/*Subject Offered navbar */}
-        {view === 'subjectoffered' && (
-          <div className="w3-panel w3-leftbar w3-sand w3-padding-24">
-            <p className="w3-xlarge w3-serif"><i>"subof"</i></p>
-          </div>
-        )}{/*SubjectOffList ang e filename sa page */}
+        {view === 'subjectoffered' && <SubjectOffList/>}
 
 		{/*Subjects navbar */}
-        {view === 'subjects' && (
-          <div className="w3-panel w3-leftbar w3-sand w3-padding-24">
-            <p className="w3-xlarge w3-serif"><i>"wasub"</i></p>
-          </div>
-        )}{/*Subjects ang e filename sa page */}
+        {view === 'subjects' && <SubjectList/>}
 
       </div>
 		</>
